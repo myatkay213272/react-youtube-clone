@@ -14,8 +14,11 @@ const Feed = () => {
     .then((data)=>setVideos(data.items))
   },[selectedCategory])
 
+ 
+
+
   return (
-    <Stack sx={{ flexDirection: { xs: "column", md: "row" }}}>
+    <Stack sx={{ background : '#000',flexDirection: { xs: "column", md: "row" }}}>
       
       <Box
         sx={{
