@@ -11,13 +11,23 @@ const ChannelDetail = () => {
 
   console.log(channelDetail,videos)
 
-  useEffect(() => {
-    fetchFromAPI(`channels?part=snippet&id=${id}`)
-      .then((data) => setChannelDetail(data?.items[0]))
-
-    fetchFromAPI(`search?channelId=${id}&part=snippet&order=date`)
-      .then((data)=>setVideos(data?.items))
-  }, [id]);
+  useEffect(()=>{
+    const fetchResults = async()=>{
+        try{
+            const channelData = await fetchFromAPI(`channels?part=snippet&id=${id}`)
+            if(channelData?.items){
+                setChannelDetail(channelData.items[0])
+            }
+            const videoData = await fetchFromAPI(`search?channelId=${id}&part=snippet&order=date`)
+            if(videoData?.items){
+                setVideos(videoData.items)
+            }
+        }catch(error){
+            console.error("❌ Error in ChannelDetail:", error.message);
+        }
+    }
+    fetchResults()
+  },[id])
 
   return (
      <Box minHeight="95vh" >

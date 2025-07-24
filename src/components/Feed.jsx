@@ -1,5 +1,6 @@
 import { Stack, Box, Typography } from '@mui/material'
-import {Sidebar,Video} from './';
+import Video from './Video'
+import Sidebar from './Sidebar';
 
 import { fetchFromAPI } from '../utils/fetchFromAPI';
 import { useEffect, useState } from 'react';
@@ -9,13 +10,14 @@ const Feed = () => {
   const [selectedCategory,setSelectedCategory] = useState('New')
   const [videos,setVideos] = useState([])
 
-  useEffect(()=>{
-    fetchFromAPI(`search?part=snippet&q=${selectedCategory}`)
-    .then((data)=>setVideos(data.items))
-  },[selectedCategory])
-
- 
-
+  useEffect(() => {
+  fetchFromAPI(`search?part=snippet&q=${selectedCategory}`)
+    .then((data) =>{
+      console.log(data)
+      setVideos(data.items)
+    }) 
+    .catch((error) => console.error("❌ API error in Feed:", error));
+}, [selectedCategory]);
 
   return (
     <Stack sx={{ background : '#000',flexDirection: { xs: "column", md: "row" }}}>
@@ -54,6 +56,7 @@ const Feed = () => {
         </Typography>
 
         <Video videos={videos}/>
+
       </Box>
     </Stack>
   );
